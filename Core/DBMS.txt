@@ -1,0 +1,288 @@
+Data
+Data is referred to as the collection of raw facts or figures that can be processed to derive meaning or knowledge. 
+
+Information
+Data when processed becomes Information. Information is the knowledge obtained from investigation, study or instruction of data. 
+
+
+The term “orange” is data. However, if we say “colour orange” or “fruit orange”, it becomes information. 
+=================================================================================================================
+Types of DB
+Relational -> Data in form of tables and they have connection between them.
+NoSql -> Stores data in key-value pair
+Object Oriented -> Stores in form of objects
+In-Memory -> Store in Memory Ram 
+Time-Series -> Stores Time-series data.
+=================================================================================================================
+Data Abstraction - Hiding the unnecessary things from user and just displaying
+                   the relevent data is called data abstraction.
+
+Physical Level - The lowest level of data abstraction. It describes how data is actually stored in database. You can get the complex data structure details
+                 at this level.
+
+Logical Level - This is the middle level of 3-level data abstarction architecture.
+                It describes what data is stored in database.
+
+View level - Highest level of data abstraction. This level describes the user interaction with database system.
+=================================================================================================================
+Schema - A schema is logical container or structure that organizes and define the
+         structure of a database.
+
+Physical Schema - A physical schema defines how data is stored on the underlying hardware
+                  including details such as storage format, file organization.
+
+Logical Schema - Defines the database structure from a logical or conceptual 
+                 perspective without considering how the data is physically stored.
+
+Instance - The information within a DB at a specific point in time is referred to
+           as DB instance.
+=================================================================================================================
+DBMS architecture - refers to the structural framework and organization of a DB
+management system.
+
+1-Tier - The entier application including user interface, application logic and data storage
+resides on a single machine or computer.
+
+2- Tier - The presentation layer runs on a client and data is stored on a server.
+
+3-Tier 
+It separates the application into presentation, application and data layer.
+presentation - Handles the user interaction.
+application - It manages business logic.
+data layer - It manages data storage and processing.
+=================================================================================================================
+Essential components of tables
+Row/Tuple - also known as record, represent individual entries or instances of data
+            within a the table.
+
+Cardinality - No. of rows in a table.
+Column/Attribute - Columns represent the attribute of data being stored and are named
+                   to describe the information they held.
+Degree - No. of Columns in a table.
+
+Key constraints - 
+Unique
+Not Null 
+Check Enforces condition to be true or false.
+Default
+primary_key
+foreign key
+
+View - It is a virtual table that is derived from one or more underlying tables.
+This means that it doesn't physically store data but rather provides a logical representation of data.
+=================================================================================================================
+Types of Keys
+
+Super Key - Set of one or more attributes that can uniquely identify a tuple in a relation.
+Candidate Key - A group of attributes capable of uniquely identifying a record within a table.
+Primary key - It is a key which unqiuely identifies attributes in a table. It is unique and not null. 
+              A key from set of Candidate key is considered as primary_key.
+Foreign key - A field in a table that refers to primary key in another table. It establishes relationship
+              between two tables.
+Composite key - Formed by atleast two primary key.
+Compound key - Formed by using two foreign key.
+
+
+=================================================================================================================
+Constraints
+
+Integrity - The data shouldn't be corrupted even after CRUD operations.
+Domain - Every attribute should have a data type.
+Entity - It ensures that each row/record in a table is uniquely identified by a primary key.
+
+Referential integrity constraints - It ensure that the relationships between tables remain accurate,
+                                    consistent and meaningful within a relational database.
+
+Update/Delete in Referenced(Base) Table.
+Deleting from the parent table should also delete or set NULL in child table.
+
+ON DELETE CASCADE; ----> delete it
+ON DELETE NULL; ----> set them NULL
+
+Updating will also affect the child table.
+ON UPDATE CASCADE;
+
+Insertion in Referencing table -
+Insertion will only take place if it is present in parent table.
+
+Deletion in Referencing table - No violation
+Update - No violation untill we don't update the foreign key itself.
+=================================================================================================================
+ER model - entity relationship model
+
+It offer a visual representation of a database architecture by illustrating the entities, their respective attributes and
+interconnection between them.
+
+Entity- Set of attributes which defines something from real world.
+Types of Entities 
+Strong entity - It is an independent entity. Eg- Person, Student. denoted by [] rectangle.
+Weak entity - It is dependent on strong entity. It does not have a primary of its own. Eg- Courses
+              It has a foreign key, primary key relation. denoted by [[]] double rectangle.
+
+Attribute - Characteristics of entity are called attributes.
+Simple attribute - Cannot be further divided. it is atomic.
+Composite - It can be divided in simple attributes. Eg- Name (First + Last name)
+Single value attribute - Holds a single value.
+Multivalue - Holds different values. Eg- phone number. Denoted by two circles
+Derived attribute - It can be derived from another attributes. Eg- Age. denoted by dotted circle.
+Complex attribute - Made of multiple smaller attributes. Eg- Address.
+Key attribute - Primary key. 
+=================================================================================================================
+Relationship - Connection between entities based on related data.
+Strong relatinoship - Exists when two entites are highly depenedent on each other and one entity cannot exit without the other.
+Weak relation - Relation exists but one entity can exist without the other.
+
+Degree in DBMS
+A degree in dbms refers to the number of attributes/ columns that a relation has.
+
+1-1 Relation - Each row in one table is associated with one and only one row in other table.
+1-Many Relation
+Many-1 Relation
+Many-Many Relation 
+
+Participation Constraints - Every entity in one group must be connected with atleast one entity in another group 
+                            or if connection is optional.
+Total Participation - Each entity in a participation set must be associated with at least one entity in related entity set.
+Partial Participation - Entities in participating entity set may or may not be associated with entities in related entity set.
+=================================================================================================================
+Extended ER features.
+
+Specialization 
+Specialization means that spliting entities based on common featues.
+It is top-down approach. There is a is-a relation between the parent and childs.
+Eg- Person-> is-a Customer, Employee
+
+Generalization
+Finding things that are alike and putting them into a big group to represetn what they
+have in common. It helps to make things simpler and organized.
+It is a bottom-up approach.
+
+Aggregation - 
+It is like stacking things on top of each other to create a hierarchical structure. 
+showing how a higher-level entity is composed of lower level entities.
+
+Eg- Employee -- Workes -- Department
+    Manager  -- manages -- Employees
+    Manager  -- manages -- Department
+
+    We can change it such that we will create high level entity of employee--department relation.
+    We will form a manages relation between the higher level entity and manager.
+
+    Higher entity is
+    Employee -- workes -- Department
+
+    Relationship
+    Manager -- manages -- Higher entity
+=================================================================================================================
+Converting ER to Relational
+
+1. All strong and weak entites form a table. weak entities have foreign key from strong entity.
+2. Multivalued attributes form new table having foreign key from parent entity.
+3. Relationship
+1-1 relation - Combine both the tables into single table.
+1- Many - Primary key lies on many side and they form 2 tables.
+Many-1  - Primary key lies on many side and they form 2 tables.
+Many-Many - 3 tables and primary key lies in the relation table which is combination of
+            primary key from both the tables.
+================================================================================================================
+Normalization
+
+Normalization is a process in which we organize data to reduce redundancy and improve
+data consistency. It involves dividing a database into two or more tables.
+
+Insertion Anomaly
+It occurs when it is difficult to insert data into the database due to the absence of other requried data.
+
+Deletion Anomaly
+It occurs when deleting data removes other valubale data.
+
+Updation Anomaly 
+It occurs when changes to data require multiple updates.
+
+Denormalization
+Intentionally introducing some redundancy into a well-normalized database schema to improve query performance.
+
+functional dependency
+It describes the relation between attributes in a relation.
+A FD is a constraint between two sets of attributes in relation from a database.
+
+For R, if there are two attributes X and Y, then X->Y
+Attribute Y is dependent on X.
+
+1-Normal Form
+Every table should have atomic values i.e. there shouldn't be any multivalued attribute.
+
+2-Normal Form 
+It has no partial dependency, which means non-prime attribute is dependent on part of any candidate key.
+How to check if it partial dependency?
+LHS is a proper subset of CK AND RHS is non-prime attribute.
+
+Eg. if AB->C AB->D, if AB is candidateKey then there shouldn't be any A->C or B->c or A->D ot B->D.
+
+3-Normal Form 
+There should't be any transitive dependency. The non-prime attributes shouldn't be dependent on other
+non-prime attribute.
+But the prime attribute can be dependent on other prime attribute.
+
+BCNF (Boyce Codd Normal Form)
+For a given FD X->Y, X should be a Super key or CandidateKey and should only determine non-prime attributes.
+===================================================================================================================
+Transaction
+
+It is a logical unit of work that comprises one or more database operations. (READ/WRITE/Commit/Rollback).
+
+Concurrency control - ensure the multiple transactions can run concurrently without compromising data consistency.
+
+ACID properties
+It ensures that transactions are processed reliably and accurately, even in complex situations.
+
+A-> Atomicity (Either execute all operations or none)
+C -> Consistency (Read should fetch upto date data and write shouldn't voilate integrity constraints)
+I -> Isolation (One transaction should be independent of other transaction)
+D -> Durability (The commited transaction should remain even after system failure)
+
+Transaction LifeCycle
+Active -> Partially Committed -> Committed -> Terminated
+          Failed     -> Aborted ->       Terminated
+
+===========================================================================================================================
+Isolation levels - It determines the degree to which the operations in one transaction are isolated from those in other transaction.
+
+Dirty Read -> Reading data written by a transaction that has not yet committed.
+Non-Repeatable Read -> Reading the same data twice within a transaction and getting different values because another transaction modified the row and committed.
+Phantom Read -> Getting different set of rows in subsequent queries within the same transaction because another transaction inserted or deleted rows and committed.
+
+To solve this problems
+Read Committed -> Read only after the first transaction has committed.
+Repeatable Read -> While reading if another transaction changes the value, till the first transaction will get the previous value.
+Serializable -> Ensures a serial transaction execution. Hence complete isolation.
+==============================================================================================================================
+Schedule 
+It refers to sequence in which a set of concurrent/multiple transactions are executed.
+You can also say it as a sequence in which the operations of multiple transactions are executed. It is really helpful to ensure
+data consistency and integrity.
+
+Incomplete schedule -> A schedule in which all transactions reach their final state of either commit or abort.
+Complete schedule -> The schedule reaches it final state.
+
+Concurrent Schedule
+We perform different transactions at a single time. The other transactions doesn't wait for the first
+trans to complete.
+
+We can face inconsistency and data corruption in this method. Hence we use the method of Serializibility.
+
+Conflict Serializable - When one of its conflict equivalent is serializabe. If a schedule can be transformed into a serial
+schedule by swapping non-conflicting operations, then the schedule is conflict serializable.
+We use conflict graph to determine conflict serializability. If the graph has cycle it is not conflict serializable.
+
+View Serializable -> If a schedule is view equivalent it is view serializable.
+conditions for view equivalent
+1. Initial Read values
+    Initial read on both the schedules must be identical.
+
+2. Update Read  
+    The order of updates should be same.
+3. Final Update
+    The final write must be identical in both schedules.
+Check the conflict serializable first, then form the possible number of serial schedules.
+Check if any one is view serializable.
