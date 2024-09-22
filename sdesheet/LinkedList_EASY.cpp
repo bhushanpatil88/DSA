@@ -303,6 +303,18 @@ Node* rotateRight(Node* head,int k) {
     return head;
 }
 
+Node* sortLL(Node* head){
+    if(head==nullptr or head->next==nullptr)return head;
+    Node* mid = middle(head);
+    Node* left = head;
+    Node* right = mid->next;
+    mid->next = nullptr;
+
+    left = sortLL(left);
+    right = sortLL(right);
+
+    return mergeLL(left,right);
+}
 
 int main()
 {

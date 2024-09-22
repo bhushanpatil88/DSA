@@ -69,8 +69,8 @@ const int INF=1e9+10;
 
 
 
-int BinarySearch(vector<int>&nums,int target){
-    int l = 0, h = nums.size()-1;
+int BinarySearch(vector<int>&v,int target){
+    int l = 0, h = v.size()-1;
 
     while(l<=h){
         int mid = (l+h)/2;
