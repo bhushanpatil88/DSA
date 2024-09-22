@@ -95,7 +95,7 @@ int MedianTwoSortedArrays(vector<int>v1, vector<int>v2){
     
     // Only change for Kth element in 2 sorted arrays.
     // int left = k; 
-    // int low = max(0, k - n1), high = min(k, n2);
+    // int low = max(0, k - n2), high = min(k, n1);
     
     int l = 0, h = n1;
     while(l<=h){
@@ -115,6 +115,21 @@ int MedianTwoSortedArrays(vector<int>v1, vector<int>v2){
         else l = mid1+1;
     }
     return 0;   
+}
+
+int missingK(vector < int > vec, int n, int k) {
+    int low = 0, high = n - 1;
+    while (low <= high) {
+        int mid = (low + high) / 2;
+        int missing = vec[mid] - (mid + 1);
+        if (missing < k) {
+            low = mid + 1;
+        }
+        else {
+            high = mid - 1;
+        }
+    }
+    return k + high + 1;
 }
 
 bool isCowsValid(int mid,int cows, vector<int>&v){
