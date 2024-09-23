@@ -223,7 +223,158 @@ bool isValid(string s)
     return st.empty();
 }
 
+int prec(char c)
+{
+    if (c == '^')
+        return 3;
+    else if (c == '/' || c == '*')
+        return 2;
+    else if (c == '+' || c == '-')
+        return 1;
+    else
+        return -1;
+}
 
+void infixToPostfix(string s)
+{
+
+    stack<char> st;
+    string result;
+    for (int i = 0; i < s.length(); i++)
+    {
+        char c = s[i];
+
+        if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9'))
+            result += c;
+        else if (c == '(')
+            st.push('(');
+
+        else if (c == ')')
+        {
+            while (st.top() != '(')
+            {
+                result += st.top();
+                st.pop();
+            }
+            st.pop();
+        }
+        else
+        {
+            while (!st.empty() && prec(s[i]) <= prec(st.top()))
+            {
+                result += st.top();
+                st.pop();
+            }
+            st.push(c);
+        }
+    }
+
+    while (!st.empty())
+    {
+        result += st.top();
+        st.pop();
+    }
+
+    cout << "Prefix expression: " << result << endl;
+}
+
+/*
+prefix to infix
+Travel from back if operand put in stack if operator remove two operands, formula (top1 operator top2)
+
+postfix to infix
+Travel from front if operand put in stack if operator remoce two operands, formula (top2 operator top1)
+
+prefix to postfix
+Travel from back, formula (top1 top2 operator)
+
+postfix to prefix
+Travel from front, formula (operator top2 top1)
+
+*/
+
+class Node
+{
+public:
+    int key, val;
+    Node *next;
+    Node *prev;
+    Node(int key, int val)
+    {
+        this->key = key;
+        this->val = val;
+    }
+};
+
+class LRU
+{
+    map<int, Node *> mp;
+    Node *head = new Node(-1, -1);
+    Node *tail = new Node(-1, -1);
+    int capacity;
+    LRU(int capacity)
+    {
+        this->capacity = capacity;
+        head->next = tail;
+        tail->prev = head;
+    }
+
+    void addNode(Node *n)
+    {
+        Node *headNext = head->next;
+        head->next = n;
+        n->prev = head;
+        n->next = headNext;
+        headNext->prev = n;
+    }
+
+    void deleteNode(Node *node)
+    {
+        Node *prevNode = node->prev;
+        Node *nextNode = node->next;
+        prevNode->next = nextNode;
+        nextNode->prev = prevNode;
+    }
+
+    int get(int key)
+    {
+        if (mp.find(key) != mp.end())
+        {
+            Node *temp = mp[key];
+            mp.erase(key);
+            deleteNode(temp);
+            addNode(temp);
+            mp[key] = head->next;
+            return temp->val;
+        }
+        return -1;
+    }
+    void put(int key, int value)
+    {
+        if (mp.find(key) != mp.end())
+        {
+            Node *temp = mp[key];
+            temp->val = value;
+            deleteNode(temp);
+            addNode(temp);
+            mp.erase(key);
+            mp[key] = head->next;
+        }
+        else
+        {
+            if (capacity == mp.size())
+            {
+                Node *temp = tail->prev;
+                mp.erase(temp->key);
+                deleteNode(temp);
+            }
+
+            Node *nn = new Node(key, value);
+            addNode(nn);
+            mp[key] = head->next;
+        }
+    }
+};
 
 int main()
 {
