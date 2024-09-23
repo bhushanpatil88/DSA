@@ -71,6 +71,72 @@ vector<int> MaximumCombinationSum(vector<int>&A,vector<int>&B,int k){
     return ans;
 }
 
+#define ppi pair<int,pair<int,int>>
+
+vector<int> mergeKArrays(vector<vector<int> > arr)
+{
+    vector<int> ans;
+    priority_queue<ppi, vector<ppi>, greater<ppi> > pq;
+
+    for (int i = 0; i < arr.size(); i++)
+        pq.push({ arr[i][0], { i, 0 } });
+
+    while (pq.empty() == false) {
+        ppi curr = pq.top();
+        pq.pop();
+
+
+        int i = curr.second.first;
+        int j = curr.second.second;
+
+        ans.push_back(curr.first);
+        if (j + 1 < arr[i].size())
+            pq.push({ arr[i][j + 1], { i, j + 1 } });
+    }
+
+    return ans;
+}
+
+struct Node{
+    int data;
+    Node* next;
+    Node(int data){this->data = data;}
+};
+
+struct compare {
+    bool operator()(Node* a, Node* b) {
+        return a->data > b->data;
+    }
+};
+Node* mergeLists(vector<Node*>& arr) {
+  
+    priority_queue<Node*, vector<Node*>, compare> pq;
+
+    for (Node* node : arr) {
+        if (node != nullptr) {
+            pq.push(node);
+        }
+    }
+
+    if (pq.empty()) return nullptr;
+    Node* dummy = new Node(0); 
+    Node* tail = dummy;
+
+    while (!pq.empty()) {
+        Node* curr = pq.top();
+        pq.pop();
+        tail->next = curr;
+        tail = tail->next;
+        if (curr->next != nullptr) {
+            pq.push(curr->next);
+        }
+    }
+
+    Node* head = dummy->next;
+    delete dummy; 
+    return head;
+}
+
 int main(){
     int n;cin>>n;
     vector<int>v(n);
